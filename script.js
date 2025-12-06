@@ -186,17 +186,23 @@ function checkReturningUser() {
     const welcomeMessage = document.getElementById('welcome-message');
     const notUserLabel = document.getElementById('not-user-label');
     const notUserCheckbox = document.getElementById('not-user-checkbox');
-    
+    const firstNameField = document.getElementById('first-name');
+
     if (savedFirstName && welcomeMessage) {
+        // Display name in heading
         welcomeMessage.textContent = `Welcome back, ${savedFirstName}!`;
+        
+        // Prefill first name field from cookie (per requirement)
+        if (firstNameField) {
+            firstNameField.value = savedFirstName;
+        }
+        
         if (notUserLabel) {
             notUserLabel.style.display = 'inline-block';
         }
-        
+
         // Load saved data from local storage
-        loadFromLocalStorage();
-        
-        // Handle "Not you?" checkbox
+        loadFromLocalStorage();        // Handle "Not you?" checkbox
         if (notUserCheckbox) {
             notUserCheckbox.addEventListener('change', function() {
                 if (this.checked) {
@@ -1087,5 +1093,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 
 
