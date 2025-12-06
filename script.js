@@ -214,27 +214,16 @@ function checkReturningUser() {
     }
 }
 
+/**
+ * External JavaScript file for MS7375 Homework 4
+ * Author: Kris Patterson
+ * Date: December 5, 2025
+ * Description: Real-time form validation with advanced editing features
+ */
 
-        input.addEventListener('change', function() {
-            if (this.type === 'checkbox' || this.type === 'radio') {
-                saveToLocalStorage(this.id, this.checked.toString());
-            } else {
-                saveToLocalStorage(this.id, this.value);
-            }
-        });
-    });
-    
-    // NEW: Handle Remember Me checkbox
-    const rememberMeCheckbox = document.getElementById('remember-me');
-    if (rememberMeCheckbox) {
-        rememberMeCheckbox.addEventListener('change', function() {
-            if (!this.checked) {
-                deleteCookie('userFirstName');
-            }
-        });
-    }
-});
-
+// Global error tracking
+let fieldErrors = {};
+let errorCount = 0;
 
 
 
@@ -1048,8 +1037,6 @@ function handleReset() {
 
 
 
-
-
 // Initialize form when page loads
 document.addEventListener('DOMContentLoaded', function() {
     displayCurrentDate();
@@ -1081,3 +1068,24 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function() {
             saveToLocalStorage(this.id, this.value);
         });
+        input.addEventListener('change', function() {
+            if (this.type === 'checkbox' || this.type === 'radio') {
+                saveToLocalStorage(this.id, this.checked.toString());
+            } else {
+                saveToLocalStorage(this.id, this.value);
+            }
+        });
+    });
+    
+    // NEW: Handle Remember Me checkbox
+    const rememberMeCheckbox = document.getElementById('remember-me');
+    if (rememberMeCheckbox) {
+        rememberMeCheckbox.addEventListener('change', function() {
+            if (!this.checked) {
+                deleteCookie('userFirstName');
+            }
+        });
+    }
+});
+
+
