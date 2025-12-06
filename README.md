@@ -1,18 +1,18 @@
-# MS7375 Homework 3 - Elite Orthopedic Patient Registration
+# MS7375 Homework 4 - Elite Orthopedic Patient Registration
 
 ## 🎓 Student Information
 **Name:** Kris Patterson  
 **Course:** MS7375  
-**Assignment:** Homework 3 - Real-Time JavaScript Form Validation
+**Assignment:** Homework 4 - Real-Time JavaScript Form Validation
 
 ---
 
 ## 🌐 Live Demo
 **Main Application:** [homework3.html](homework3.html)
 
-**GitHub Repository:** https://github.com/kagm316-oss/MS7375-Homework-3
+**GitHub Repository:** https://github.com/kagm316-oss/MS7375-Homework-4
 
-**GitHub Pages URL:** https://kagm316-oss.github.io/MS7375-Homework-3/homework3.html
+**GitHub Pages URL:** https://kagm316-oss.github.io/MS7375-Homework-4/homework3.html
 
 ---
 

@@ -1,15 +1,15 @@
-# MS7375 Homework 3 - Implementation Summary
+# MS7375 Homework 4 - Implementation Summary
 
 ## Author: Kris Patterson
-## Date: November 14, 2025
+## Date: December 5, 2025
 
 ## Project Overview
-This project implements a comprehensive medical patient registration form with real-time JavaScript validation and advanced editing features as required for MS7375 Homework 3.
+This project implements a comprehensive medical patient registration form with real-time JavaScript validation and advanced editing features as required for MS7375 Homework 4.
 
 ## GitHub Repository
-**URL:** https://github.com/kagm316-oss/MS7375-Homework-3
+**URL:** https://github.com/kagm316-oss/MS7375-Homework-4
 
-**Main Form URL:** https://kagm316-oss.github.io/MS7375-Homework-3/homework3.html
+**Main Form URL:** https://kagm316-oss.github.io/MS7375-Homework-4/homework3.html
 
 ## Key Files
 1. **homework3.html** - Main registration form

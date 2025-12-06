@@ -1,7 +1,7 @@
 /**
- * External JavaScript file for MS7375 Homework 3
+ * External JavaScript file for MS7375 Homework 4
  * Author: Kris Patterson
- * Date: November 14, 2025
+ * Date: December 5, 2025
  * Description: Real-time form validation with advanced editing features
  */
 

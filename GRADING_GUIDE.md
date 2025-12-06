@@ -1,14 +1,14 @@
-# Quick Reference for Grading MS7375 Homework 3
+# Quick Reference for Grading MS7375 Homework 4
 
 ## Student: Kris Patterson
-## Repository: https://github.com/kagm316-oss/MS7375-Homework-3
+## Repository: https://github.com/kagm316-oss/MS7375-Homework-4
 
 ---
 
 ## 🌐 MAIN URL TO GRADE
 **Primary File:** `homework3.html`
 
-**GitHub Pages URL:** https://kagm316-oss.github.io/MS7375-Homework-3/homework3.html
+**GitHub Pages URL:** https://kagm316-oss.github.io/MS7375-Homework-4/homework3.html
 
 (Or download and open `homework3.html` locally)
 
