@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        button, .btn-link {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, .btn-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <p><strong>Elite Ortho</strong></p>
+    <p>PO BOX 18881, Sugar Land TX 77496</p>
+    <div>
+        <button onclick="parent.postMessage('contact', '*')">CONTACT US</button>
+        <a href="website_description.html" target="_parent" class="btn-link">ABOUT SYSTEM</a>
+        <a href="pseudocode.html" target="_parent" class="btn-link">PSEUDOCODE</a>
+    </div>
+    <div style="margin-top: 10px;">
+        <a href="#" target="_blank">Facebook</a> |
+        <a href="#" target="_blank">Twitter</a>
+    </div>
+</body>
+</html>
