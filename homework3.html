@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Program Name: Medical Form - Homework 4
     Author: Kris Patterson  
     Date Created: 12-05-2025
     Version: 4.0
-    Description: Advanced User Registration Form with Real-Time JavaScript Validation
+    Description: Advanced User Registration Form with Fetch API, Cookies, Local Storage, iFrames, and Time-based Events
 -->
 <html lang="en">
 <head>
@@ -14,6 +14,15 @@
 </head>
 
 <body>
+    <!-- Fixed Welcome Banner -->
+    <div id="welcome-banner" class="welcome-banner">
+        <div id="welcome-message">Welcome New User</div>
+        <div id="live-clock"></div>
+        <label id="not-user-label" style="display:none;">
+            <input type="checkbox" id="not-user-checkbox"> Not you?
+        </label>
+    </div>
+
     <!-- Banner -->
     <table class="banner">
         <tr>
@@ -29,8 +38,14 @@
 
     <!-- Patient Registration Form -->
     <form id="patient-form" onsubmit="return false;">
+        <!-- iFrame for Patient Resources -->
+        <div class="iframe-container">
+            <h3>Patient Resources</h3>
+            <iframe src="iframe-content.html" title="Patient Resources" class="patient-iframe"></iframe>
+        </div>
+
         <h2>Patient Registration Form</h2>
-        
+
         <!-- Personal, Contact & Address Information -->
         <fieldset class="form-section">
             <legend>Personal, Contact & Address Information</legend>
@@ -38,7 +53,7 @@
                 <tr>
                     <td><label for="first-name">First Name *:</label></td>
                     <td>
-                        <input type="text" id="first-name" name="first-name" required 
+                        <input type="text" id="first-name" name="first-name" required
                                maxlength="30" minlength="1"
                                pattern="[A-Za-z\'\-\s]+"
                                title="First name: 1-30 characters, letters, apostrophes, and dashes only"
@@ -47,7 +62,7 @@
                     </td>
                     <td><label for="middle-initial">Middle Initial:</label></td>
                     <td>
-                        <input type="text" id="middle-initial" name="middle-initial" 
+                        <input type="text" id="middle-initial" name="middle-initial"
                                maxlength="1" pattern="[A-Za-z]?"
                                title="Optional: Single letter only"
                                placeholder="M">
@@ -55,7 +70,7 @@
                     </td>
                     <td><label for="last-name">Last Name *:</label></td>
                     <td>
-                        <input type="text" id="last-name" name="last-name" required 
+                        <input type="text" id="last-name" name="last-name" required
                                maxlength="30" minlength="1"
                                pattern="[A-Za-z\'\-\s]+"
                                title="Last name: 1-30 characters, letters, apostrophes, and dashes only"
@@ -111,7 +126,7 @@
                     </td>
                     <td><label for="address-line-2">Address Line 2:</label></td>
                     <td>
-                        <input type="text" id="address-line-2" name="address-line-2" 
+                        <input type="text" id="address-line-2" name="address-line-2"
                                maxlength="30" minlength="2"
                                title="Optional: Apartment, suite, etc. If entered, must be 2-30 characters"
                                placeholder="Apt 4B">
@@ -122,7 +137,7 @@
                 <tr>
                     <td><label for="city">City *:</label></td>
                     <td>
-                        <input type="text" id="city" name="city" required 
+                        <input type="text" id="city" name="city" required
                                maxlength="30" minlength="2"
                                title="City name: 2-30 characters required"
                                placeholder="Sugar Land">
@@ -130,61 +145,9 @@
                     </td>
                     <td><label for="state">State *:</label></td>
                     <td>
-                        <select id="state" name="state" required 
+                        <select id="state" name="state" required
                                 title="Please select your state">
-                            <option value="">Select a state</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="DC">District of Columbia</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="PR">Puerto Rico</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option>
+                            <option value="">Loading states...</option>
                         </select>
                         <span class="error-placeholder" id="error-state"></span>
                     </td>
@@ -200,7 +163,7 @@
             </table>
         </fieldset>
 
-        
+
         <!-- Medical History and Preferences -->
         <fieldset class="form-section">
             <legend>Medical History and Preferences</legend>
@@ -218,7 +181,7 @@
                 <tr>
                     <td>Medical History - Check all that apply:</td>
                     <td colspan="5">
-                        <label><input type="checkbox" id="chicken-pox" name="medical-history" value="chicken-pox" 
+                        <label><input type="checkbox" id="chicken-pox" name="medical-history" value="chicken-pox"
                                       title="Check if you have had Chicken Pox"> Chicken Pox</label>
                         <label><input type="checkbox" id="measles" name="medical-history" value="measles"
                                       title="Check if you have had Measles"> Measles</label>
@@ -274,13 +237,18 @@
                         <label><input type="radio" id="vaccinated-partial" name="vaccinated" value="partial" required
                                       title="Are you up to date with vaccinations?"> Partially</label>
                         <span class="error-placeholder" id="error-vaccinated"></span>
+                        <br><br>
+                        <label>
+                            <input type="checkbox" id="remember-me" name="remember-me">
+                            Remember Me (48 hours)
+                        </label>
                     </td>
                 </tr>
 
                 <tr>
                     <td><label for="pain-level">Pain Level (1-10):</label></td>
                     <td colspan="3">
-                        <input type="range" id="pain-level" name="pain-level" 
+                        <input type="range" id="pain-level" name="pain-level"
                                min="1" max="10" value="5" step="1"
                                title="Rate your current pain level from 1 (no pain) to 10 (unbearable)">
                     </td>
@@ -289,7 +257,7 @@
             </table>
         </fieldset>
 
-        
+
         <!-- Account Creation Section -->
         <fieldset class="form-section">
             <legend>Account Creation</legend>
@@ -335,15 +303,15 @@
             <button type="button" id="validate-btn" class="validate-btn" onclick="validateForm()">VALIDATE FORM</button>
             <button type="button" id="submit-btn" class="submit-btn" style="display:none;" onclick="submitForm()">SUBMIT</button>
         </div>
-        
+
         <div id="validation-summary" class="validation-summary" style="display:none;">
             <h3>Validation Summary</h3>
             <p id="validation-message"></p>
         </div>
     </form>
 
-    <!-- Footer -->
-    <div id="footer">
+    <!-- Fixed Footer -->
+    <div id="footer" class="fixed-footer">
         <p>Elite Ortho</p>
         <p>PO BOX 18881, Sugar Land TX 77496</p>
         <button class="contact-btn">CONTACT US</button>

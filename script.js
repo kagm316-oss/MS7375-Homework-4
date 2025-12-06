@@ -1,13 +1,218 @@
-/**
+﻿/**
  * External JavaScript file for MS7375 Homework 4
  * Author: Kris Patterson
  * Date: December 5, 2025
- * Description: Real-time form validation with advanced editing features
+ * Description: Real-time form validation with Fetch API, Cookies, Local Storage, iFrames, and Time-based Events
  */
 
 // Global error tracking
 let fieldErrors = {};
 let errorCount = 0;
+let sessionTimer = null;
+
+// ===== COOKIE MANAGEMENT =====
+/**
+ * Set a cookie with expiration in hours
+ * @param {string} name - Cookie name
+ * @param {string} value - Cookie value
+ * @param {number} hours - Expiration in hours
+ */
+function setCookie(name, value, hours) {
+    const date = new Date();
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+/**
+ * Get a cookie value by name
+ * @param {string} name - Cookie name
+ * @returns {string} Cookie value or empty string
+ */
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return "";
+}
+
+/**
+ * Delete a cookie by name
+ * @param {string} name - Cookie name
+ */
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+// ===== LOCAL STORAGE MANAGEMENT =====
+/**
+ * Save a form field to local storage
+ * @param {string} fieldId - Field ID
+ * @param {string} value - Field value
+ */
+function saveToLocalStorage(fieldId, value) {
+    // Don't save secure fields (SSN, passwords)
+    const secureFields = ['social-security', 'password', 're-enter-password'];
+    if (!secureFields.includes(fieldId)) {
+        localStorage.setItem(fieldId, value);
+    }
+}
+
+/**
+ * Load all saved fields from local storage
+ */
+function loadFromLocalStorage() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        const savedValue = localStorage.getItem(input.id);
+        if (savedValue && input.type !== 'password' && input.id !== 'social-security') {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                if (savedValue === 'true' || input.value === savedValue) {
+                    input.checked = true;
+                }
+            } else {
+                input.value = savedValue;
+            }
+        }
+    });
+}
+
+/**
+ * Clear all local storage for this form
+ */
+function clearLocalStorage() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        localStorage.removeItem(input.id);
+    });
+}
+
+// ===== FETCH API FOR STATES =====
+/**
+ * Load states from JSON file using Fetch API
+ */
+async function loadStates() {
+    try {
+        const response = await fetch('states.json');
+        if (!response.ok) {
+            throw new Error('Failed to load states');
+        }
+        const data = await response.json();
+        const stateDropdown = document.getElementById('state');
+        
+        if (stateDropdown) {
+            // Clear loading message
+            stateDropdown.innerHTML = '<option value="">Select a state</option>';
+            
+            // Add all states from JSON
+            data.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.value;
+                option.textContent = state.name;
+                stateDropdown.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading states:', error);
+        const stateDropdown = document.getElementById('state');
+        if (stateDropdown) {
+            stateDropdown.innerHTML = '<option value="">Error loading states</option>';
+        }
+    }
+}
+
+// ===== TIME-BASED EVENTS =====
+/**
+ * Update live clock every second
+ */
+function updateLiveClock() {
+    const clockElement = document.getElementById('live-clock');
+    if (clockElement) {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+        clockElement.textContent = timeString;
+    }
+}
+
+/**
+ * Show session timeout warning
+ */
+function showTimeoutWarning() {
+    const proceed = confirm('Your session has been inactive for 5 minutes. Would you like to continue?');
+    if (proceed) {
+        // Reset timer
+        startSessionTimer();
+    } else {
+        // Clear form
+        document.getElementById('patient-form').reset();
+        clearLocalStorage();
+    }
+}
+
+/**
+ * Start session timeout timer (5 minutes)
+ */
+function startSessionTimer() {
+    // Clear existing timer
+    if (sessionTimer) {
+        clearTimeout(sessionTimer);
+    }
+    // Set new timer for 5 minutes
+    sessionTimer = setTimeout(showTimeoutWarning, 5 * 60 * 1000);
+}
+
+/**
+ * Reset session timer on user activity
+ */
+function resetSessionTimer() {
+    startSessionTimer();
+}
+
+// ===== WELCOME BANNER MANAGEMENT =====
+/**
+ * Check for returning user and display welcome message
+ */
+function checkReturningUser() {
+    const savedFirstName = getCookie('userFirstName');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const notUserLabel = document.getElementById('not-user-label');
+    const notUserCheckbox = document.getElementById('not-user-checkbox');
+    
+    if (savedFirstName && welcomeMessage) {
+        welcomeMessage.textContent = `Welcome back, ${savedFirstName}!`;
+        if (notUserLabel) {
+            notUserLabel.style.display = 'inline-block';
+        }
+        
+        // Load saved data from local storage
+        loadFromLocalStorage();
+        
+        // Handle "Not you?" checkbox
+        if (notUserCheckbox) {
+            notUserCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    deleteCookie('userFirstName');
+                    clearLocalStorage();
+                    welcomeMessage.textContent = 'Welcome New User';
+                    notUserLabel.style.display = 'none';
+                    document.getElementById('patient-form').reset();
+                    this.checked = false;
+                }
+            });
+        }
+    } else {
+        welcomeMessage.textContent = 'Welcome New User';
+    }
+}
 
 // Initialize form when page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -16,7 +221,52 @@ document.addEventListener('DOMContentLoaded', function() {
     setDateRanges();
     setupSalarySlider();
     attachValidationListeners();
+    
+    // NEW: Load states using Fetch API
+    loadStates();
+    
+    // NEW: Check for returning user
+    checkReturningUser();
+    
+    // NEW: Start live clock
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
+    
+    // NEW: Start session timer
+    startSessionTimer();
+    
+    // NEW: Reset timer on user activity
+    document.addEventListener('input', resetSessionTimer);
+    document.addEventListener('click', resetSessionTimer);
+    
+    // NEW: Auto-save to local storage on input
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            saveToLocalStorage(this.id, this.value);
+        });
+        input.addEventListener('change', function() {
+            if (this.type === 'checkbox' || this.type === 'radio') {
+                saveToLocalStorage(this.id, this.checked.toString());
+            } else {
+                saveToLocalStorage(this.id, this.value);
+            }
+        });
+    });
+    
+    // NEW: Handle Remember Me checkbox
+    const rememberMeCheckbox = document.getElementById('remember-me');
+    if (rememberMeCheckbox) {
+        rememberMeCheckbox.addEventListener('change', function() {
+            if (!this.checked) {
+                deleteCookie('userFirstName');
+            }
+        });
+    }
 });
+
+
+
 
 /**
  * Display current date in the banner
@@ -756,7 +1006,7 @@ function validateForm() {
     if (allValid && errorCount === 0) {
         validationSummary.style.display = 'block';
         validationSummary.className = 'validation-summary success';
-        validationMessage.textContent = '✓ All fields are valid! You may now submit the form.';
+        validationMessage.textContent = 'âœ“ All fields are valid! You may now submit the form.';
         validationMessage.style.color = '#28a745';
         
         // Show submit button
@@ -767,7 +1017,7 @@ function validateForm() {
     } else {
         validationSummary.style.display = 'block';
         validationSummary.className = 'validation-summary error';
-        validationMessage.textContent = '✗ Please correct the errors above before submitting. (' + errorCount + ' error(s) found)';
+        validationMessage.textContent = 'âœ— Please correct the errors above before submitting. (' + errorCount + ' error(s) found)';
         validationMessage.style.color = '#dc3545';
         
         // Hide submit button
@@ -825,3 +1075,6 @@ function handleReset() {
     // Reset salary display
     setupSalarySlider();
 }
+
+
+
