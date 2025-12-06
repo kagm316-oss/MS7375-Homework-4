@@ -197,24 +197,29 @@ function checkReturningUser() {
             firstNameField.value = savedFirstName;
         }
         
+        // Update "Not you?" label with actual name
         if (notUserLabel) {
+            notUserLabel.innerHTML = `<input type="checkbox" id="not-user-checkbox"> Not ${savedFirstName}?`;
             notUserLabel.style.display = 'inline-block';
+            
+            // Re-attach event listener after updating HTML
+            const updatedCheckbox = document.getElementById('not-user-checkbox');
+            if (updatedCheckbox) {
+                updatedCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        deleteCookie('userFirstName');
+                        clearLocalStorage();
+                        welcomeMessage.textContent = 'Welcome New User';
+                        notUserLabel.style.display = 'none';
+                        document.getElementById('patient-form').reset();
+                        this.checked = false;
+                    }
+                });
+            }
         }
 
         // Load saved data from local storage
-        loadFromLocalStorage();        // Handle "Not you?" checkbox
-        if (notUserCheckbox) {
-            notUserCheckbox.addEventListener('change', function() {
-                if (this.checked) {
-                    deleteCookie('userFirstName');
-                    clearLocalStorage();
-                    welcomeMessage.textContent = 'Welcome New User';
-                    notUserLabel.style.display = 'none';
-                    document.getElementById('patient-form').reset();
-                    this.checked = false;
-                }
-            });
-        }
+        loadFromLocalStorage();
     } else {
         welcomeMessage.textContent = 'Welcome New User';
     }
@@ -1003,16 +1008,21 @@ function validateForm() {
 function submitForm() {
     // Final validation check
     validateForm();
-    
+
     if (errorCount === 0) {
+        // Save first name cookie if Remember Me is checked
+        const rememberMe = document.getElementById('remember-me');
+        const firstName = document.getElementById('first-name');
+        if (rememberMe && rememberMe.checked && firstName && firstName.value) {
+            setCookie('userFirstName', firstName.value, 48);
+        }
+        
         // Redirect to thank you page
         window.location.href = 'thankyou.html';
     } else {
         alert('Please correct all errors before submitting.');
     }
-}
-
-/**
+}/**
  * Handle form reset
  */
 function handleReset() {
