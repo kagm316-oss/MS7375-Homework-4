@@ -1,0 +1,75 @@
+PSEUDOCODE FOR VALIDATE BUTTON LOGIC FLOW
+===========================================
+
+FUNCTION validateForm():
+    // Initialize validation tracking
+    SET validations = empty array
+    
+    // Validate all required fields
+    ADD validateFirstName() to validations
+    ADD validateMiddleInitial() to validations
+    ADD validateLastName() to validations
+    ADD validateDateOfBirth() to validations
+    ADD validateSSN() to validations
+    ADD validateEmail() to validations
+    ADD validatePhone() to validations
+    ADD validateAddressLine1() to validations
+    ADD validateAddressLine2() to validations
+    ADD validateCity() to validations
+    ADD validateState() to validations
+    ADD validateZipCode() to validations
+    ADD validateUserId() to validations
+    ADD validatePassword() to validations
+    ADD validatePasswordMatch() to validations
+    ADD validateGender() to validations
+    ADD validateSick() to validations
+    ADD validateInsurance() to validations
+    ADD validateVaccinated() to validations
+    
+    // Check if all validations passed
+    SET allValid = TRUE if every validation in validations is TRUE
+    
+    // Get UI elements
+    GET validationSummary element
+    GET validationMessage element
+    GET submitBtn element
+    
+    // Determine result and update UI
+    IF allValid AND errorCount equals 0 THEN
+        // Success - show green summary
+        SHOW validationSummary
+        SET validationSummary class to "success"
+        SET validationMessage text to "✓ All fields are valid! You may now submit the form."
+        SET validationMessage color to green
+        
+        // Enable submission
+        SHOW submitBtn
+        SCROLL submitBtn into view with smooth animation
+    ELSE
+        // Failure - show red summary
+        SHOW validationSummary
+        SET validationSummary class to "error"
+        SET validationMessage text to "✗ Please correct the errors above before submitting. (" + errorCount + " error(s) found)"
+        SET validationMessage color to red
+        
+        // Disable submission
+        HIDE submitBtn
+        
+        // Help user find first error
+        FIND first element with class "input-error"
+        IF found THEN
+            SCROLL first error into view with smooth animation
+            FOCUS on first error field
+        END IF
+    END IF
+END FUNCTION
+
+
+SUMMARY:
+--------
+This pseudocode shows how the validate button:
+1. Runs all 19 validation functions
+2. Checks if all passed and no errors exist
+3. Shows success (green) or failure (red) summary
+4. Only reveals SUBMIT button when everything is valid
+5. Helps users by scrolling to first error if validation fails
