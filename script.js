@@ -214,37 +214,7 @@ function checkReturningUser() {
     }
 }
 
-// Initialize form when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    displayCurrentDate();
-    initializeForm();
-    setDateRanges();
-    setupSalarySlider();
-    attachValidationListeners();
-    
-    // NEW: Load states using Fetch API
-    loadStates();
-    
-    // NEW: Check for returning user
-    checkReturningUser();
-    
-    // NEW: Start live clock
-    updateLiveClock();
-    setInterval(updateLiveClock, 1000);
-    
-    // NEW: Start session timer
-    startSessionTimer();
-    
-    // NEW: Reset timer on user activity
-    document.addEventListener('input', resetSessionTimer);
-    document.addEventListener('click', resetSessionTimer);
-    
-    // NEW: Auto-save to local storage on input
-    const inputs = document.querySelectorAll('input, select, textarea');
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            saveToLocalStorage(this.id, this.value);
-        });
+
         input.addEventListener('change', function() {
             if (this.type === 'checkbox' || this.type === 'radio') {
                 saveToLocalStorage(this.id, this.checked.toString());
@@ -1078,3 +1048,36 @@ function handleReset() {
 
 
 
+
+
+// Initialize form when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    displayCurrentDate();
+    initializeForm();
+    setDateRanges();
+    setupSalarySlider();
+    attachValidationListeners();
+    
+    // NEW: Load states using Fetch API
+    loadStates();
+    
+    // NEW: Check for returning user
+    checkReturningUser();
+    
+    // NEW: Start live clock
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
+    
+    // NEW: Start session timer
+    startSessionTimer();
+    
+    // NEW: Reset timer on user activity
+    document.addEventListener('input', resetSessionTimer);
+    document.addEventListener('click', resetSessionTimer);
+    
+    // NEW: Auto-save to local storage on input
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            saveToLocalStorage(this.id, this.value);
+        });
